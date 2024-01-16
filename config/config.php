@@ -29,11 +29,33 @@
             $res = mysqli_query($this->conn,$query); //(object of mysqli_connect, query)   =>  1/0
 
             if($res) {
-                echo "$res: Inserted successfully...";
+                // echo "$res: Inserted successfully...";
             }
             else {
                 echo "Insertion failled...";
             }
+
+            return $res;
+
+        }
+
+        //display
+        public function getAllData() {
+
+            $query = "SELECT * FROM $this->table_name";
+
+            $res = mysqli_query($this->conn,$query);   //mysqli_result
+
+            // print_r($res);
+            // var_dump($res);
+
+            // while($data = mysqli_fetch_array($res)) {
+            //     $data = mysqli_fetch_array($res);   //  mysqli_result   =>  array
+            //     print_r($data);
+            //     echo "<br>";
+            // }
+
+            return $res;
 
         }
 
