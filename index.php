@@ -31,12 +31,72 @@
         $age = $_POST['age'];
         $course = $_POST['course'];
 
-        $res = $config->insert($name,$age,$course);
+        $res = $config->insert($name,$age,$course); //1/0
 
         if($res) {
             // header("Location: dashboard.php");
         }
     }
+
+    /*
+            - Press delete
+            - fetch id
+            - use SQL
+    */
+
+    $delete_btn = @$_REQUEST['btn_delete'];
+
+    if(isset($delete_btn)) {
+        $id = $_POST['delete_id'];
+
+        $delete_res = $config->delete($id);
+
+        if($delete_res) {
+            echo "<div class='container pt-5'><div class='alert alert-success alert-dismissible fade show' role='alert'>
+            <strong>Deleted !!</strong> id $id deleted successfully...
+            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+            </div></div>";
+        }
+        else {
+            echo "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
+            <strong>Failled !!</strong> id $id failled to delete...
+            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+            </div>";
+        }
+    }
+
+
+    /*
+            - Press button
+            - Fetch id
+            - Fetch data
+            - use SQL
+    */
+
+    $update_btn = @$_REQUEST['btn_update'];
+
+    if(isset($update_btn)) {
+        $update_id = $_POST['update_id'];
+        $update_name = $_POST['update_name'];
+        $update_age = $_POST['update_age'];
+        $update_course = $_POST['update_course'];
+
+        $button_updt = @$_REQUEST['button_updt'];
+
+        if(isset($button_updt)) {
+            $name = $_POST['name'];
+            $age = $_POST['age'];
+            $course = $_POST['course'];
+
+            echo "Id: $update_id, Name: $name, Age: $age, Course: $course";
+
+            $config->update($update_id,$name,$age,$course);
+        }
+
+    }
+
+    
+
 
     $responce = $config->getAllData();
 
@@ -69,20 +129,34 @@
                 </div>
             <?php }?>
 
-            <form method="post">
+            <form method="get">
                 <div class="mb-3">
                     <label for="nameField" class="form-label">Student name</label>
-                    <input type="text" class="form-control" id="nameField"  name="name">
+                    <input type="text" class="form-control" id="nameField"  name="name" value="<?php
+                        if($update_btn != null) {
+                            echo $update_name;
+                        }
+                    ?>">
                 </div>
                 <div class="mb-3">
                     <label for="ageField" class="form-label">Student age</label>
-                    <input type="number" class="form-control" id="ageField"  name="age">
+                    <input type="number" class="form-control" id="ageField"  name="age" value="<?php
+                        if($update_btn != null) {
+                            echo $update_age;
+                        }
+                    ?>">
                 </div>
                 <div class="mb-3">
                     <label for="courseField" class="form-label">Student course</label>
-                    <input type="text" class="form-control" id="courseField"  name="course">
+                    <input type="text" class="form-control" id="courseField"  name="course" value="<?php
+                        if($update_btn != null) {
+                            echo $update_course;
+                        }
+                    ?>">
                 </div>
-                <input type="submit" name="submit_btn" class="btn btn-primary" ></input>
+                <input type="submit" value="<?php
+                    echo $update_btn != null ? "UPDATE" : "SUBMIT";
+                ?>" name="<?php echo $update_btn != null ? "button_updt" : "submit_btn" ?>" class="btn btn-primary" ></input>
             </form>
 
             <table class="table">
@@ -92,6 +166,7 @@
                         <th scope="col">Name</th>
                         <th scope="col">Age</th>
                         <th scope="col">Course</th>
+                        <th scope="col" span="2">Action</th>
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">
@@ -101,6 +176,21 @@
                             <td> <?php echo $data['name']; ?> </td>
                             <td> <?php echo $data['age']; ?> </td>
                             <td> <?php echo $data['course']; ?> </td>
+                            <td> 
+                                <form action="" method="post">
+                                    <input type="hidden" value="<?php echo $data['id'];?>" name="update_id">
+                                    <input type="hidden" value="<?php echo $data['name'];?>" name="update_name">
+                                    <input type="hidden" value="<?php echo $data['age'];?>" name="update_age">
+                                    <input type="hidden" value="<?php echo $data['course'];?>" name="update_course">
+                                    <input type="submit" value="Update" class="btn btn-primary" name="btn_update">
+                                </form>
+                            </td>
+                            <td> 
+                                <form action="" method="post">
+                                    <input type="hidden" value="<?php echo $data['id'];?>" name="delete_id">
+                                    <input type="submit" value="Delete" class="btn btn-danger" name="btn_delete">
+                                </form>
+                            </td>
                         </tr>
                     <?php } ?>
                 </tbody>

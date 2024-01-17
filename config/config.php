@@ -59,6 +59,19 @@
 
         }
 
+        //Delete
+        public function delete($id) {
+            $query = "DELETE FROM $this->table_name WHERE id=$id";
+            return mysqli_query($this->conn,$query);    //count of deleted records
+        }
+
+        //Update
+        public function update($id,$name,$age,$course) {
+            $query = "UPDATE TABLE $this->table_name SET name='$name',age=$age,course='$course' WHERE id=$id";
+            $res = mysqli_query($this->conn,$query);
+            print_r($res);
+        }
+
     }
 
     class Demo {
