@@ -74,29 +74,30 @@
     */
 
     $update_btn = @$_REQUEST['btn_update'];
+    $update_id = 0;
+    $update_name = "";
+    $update_age = 0;
+    $update_course = "";
 
     if(isset($update_btn)) {
         $update_id = $_POST['update_id'];
         $update_name = $_POST['update_name'];
         $update_age = $_POST['update_age'];
         $update_course = $_POST['update_course'];
-
-        $button_updt = @$_REQUEST['button_updt'];
-
-        if(isset($button_updt)) {
-            $name = $_POST['name'];
-            $age = $_POST['age'];
-            $course = $_POST['course'];
-
-            echo "Id: $update_id, Name: $name, Age: $age, Course: $course";
-
-            $config->update($update_id,$name,$age,$course);
-        }
-
     }
 
-    
+    $button_updt = @$_REQUEST['button_updt'];
 
+    if(isset($button_updt)) {
+        $update_id = $_POST['id'];
+        $name = $_POST['name'];
+        $age = $_POST['age'];
+        $course = $_POST['course'];
+
+        echo "Id: $update_id, Name: $name, Age: $age, Course: $course";
+
+        $config->update($update_id,$name,$age,$course);
+    }
 
     $responce = $config->getAllData();
 
@@ -129,7 +130,12 @@
                 </div>
             <?php }?>
 
-            <form method="get">
+            <form method="post">
+                <input type="hidden" name="id" value="<?php
+                    if($update_btn != null) {
+                        echo $update_id;
+                    }
+                ?>"> 
                 <div class="mb-3">
                     <label for="nameField" class="form-label">Student name</label>
                     <input type="text" class="form-control" id="nameField"  name="name" value="<?php

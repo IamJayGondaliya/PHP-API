@@ -32,7 +32,7 @@
                 // echo "$res: Inserted successfully...";
             }
             else {
-                echo "Insertion failled...";
+                // echo "Insertion failled...";
             }
 
             return $res;
@@ -67,7 +67,7 @@
 
         //Update
         public function update($id,$name,$age,$course) {
-            $query = "UPDATE TABLE $this->table_name SET name='$name',age=$age,course='$course' WHERE id=$id";
+            $query = "UPDATE $this->table_name SET name='$name',age=$age,course='$course' WHERE id=$id";
             $res = mysqli_query($this->conn,$query);
             print_r($res);
         }
