@@ -59,6 +59,11 @@
 
         }
 
+        public function getSingleRecord($id) {
+            $query = "SELECT * FROM $this->table_name WHERE id=$id";
+            return mysqli_query($this->conn,$query);    //mysqli_result
+        }
+
         //Delete
         public function delete($id) {
             $query = "DELETE FROM $this->table_name WHERE id=$id";

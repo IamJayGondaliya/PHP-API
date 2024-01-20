@@ -18,6 +18,8 @@
 
         $res['msg'] = $result ? "Inserted..." : "Failled...";
 
+        http_response_code($result ? 201 : 403);
+
     }
     else {
         $res['msg'] = "Only POST method is allowed...";
