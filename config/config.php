@@ -74,7 +74,18 @@
         public function update($id,$name,$age,$course) {
             $query = "UPDATE $this->table_name SET name='$name',age=$age,course='$course' WHERE id=$id";
             $res = mysqli_query($this->conn,$query);
-            print_r($res);
+            return $res ? "$id updated..." : "$id failed to update...";
+        }
+
+        //Register user
+        public function register_user($user_name,$password) {
+            $query = "INSERT INTO users(user_name,password) VALUES('$user_name','$password')";
+
+            $res = mysqli_query($this->conn,$query); //(object of mysqli_connect, query)   =>  1/0
+
+            http_response_code($res ? 201 : 403);
+
+            return $res ? "User created..." : "User failed to create...";
         }
 
     }
