@@ -11,7 +11,9 @@ $config = new Config();
 if($_SERVER['REQUEST_METHOD'] == "POST") {
 
     $user_name = $_POST['user_name'];
-    $password = $_POST['password'];
+    $psw = $_POST['password'];
+
+    $password = password_hash($psw,PASSWORD_DEFAULT);
 
     $res['msg'] = $config->register_user($user_name,$password);
 }

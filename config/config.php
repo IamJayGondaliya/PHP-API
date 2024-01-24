@@ -88,6 +88,33 @@
             return $res ? "User created..." : "User failed to create...";
         }
 
+        private function getUserByName($user_name) {
+            $query = "SELECT * FROM users WHERE user_name='$user_name'";
+
+            return mysqli_query($this->conn,$query);
+        }
+
+        public function login($user_name,$password) {
+
+            $res = $this->getUserByName($user_name);
+            
+            if(mysqli_num_rows($res) == 1) {
+                $record = mysqli_fetch_array($res); // mysqli_result    =>  Array
+
+                if(password_verify($password,$record['password'])) {
+                    return "Login successfully...";
+                }
+                else {
+                    return "Invalid password...";
+                }
+
+            }
+            else {
+                return "User does not exist !!";
+            }
+
+        }
+
     }
 
     class Demo {
