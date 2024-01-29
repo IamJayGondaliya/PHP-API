@@ -115,6 +115,39 @@
 
         }
 
+        public function insertMedia($name,$path) {
+            $query = "INSERT INTO media(name,path) VALUES('$name','$path')";
+
+            return mysqli_query($this->conn,$query);
+        }
+
+        private function getMedia($id) {
+            $query = "SELECT * FROM media";
+            return mysqli_query($this->conn,$query);
+        }
+
+        public function deleteMedia($id) {
+            $result = $this->getMedia($id);
+            
+            if(mysqli_num_rows($result)) {
+                $record = mysqli_fetch_array($result);
+
+                echo $record['name'];
+
+                $query = "DELETE FROM media WHERE id=$id";
+
+                $ans = mysqli_query($this->conn,$query);
+
+                return ($ans == 1 && unlink("../uploads/" . $record['name'])) 
+                    ? "Deleted successfully" 
+                    : "Deletion failled...";
+
+            }
+            else {
+                return "Media doesn't exists...";
+            }
+        }
+
     }
 
     class Demo {
