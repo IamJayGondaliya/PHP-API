@@ -122,7 +122,7 @@
         }
 
         private function getMedia($id) {
-            $query = "SELECT * FROM media";
+            $query = "SELECT * FROM media WHERE id=$id";
             return mysqli_query($this->conn,$query);
         }
 
@@ -132,13 +132,11 @@
             if(mysqli_num_rows($result)) {
                 $record = mysqli_fetch_array($result);
 
-                echo $record['name'];
-
                 $query = "DELETE FROM media WHERE id=$id";
 
                 $ans = mysqli_query($this->conn,$query);
 
-                return ($ans == 1 && unlink("../uploads/" . $record['name'])) 
+                return ($ans == 1 && unlink($record['path'])) 
                     ? "Deleted successfully" 
                     : "Deletion failled...";
 
